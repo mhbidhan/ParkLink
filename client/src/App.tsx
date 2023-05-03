@@ -45,15 +45,14 @@ function App() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         console.log('Refresh completed successfully!');
-        resolve(); // <-- call resolve() to indicate that the refresh is completed successfully
+        resolve(''); // <-- call resolve() to indicate that the refresh is completed successfully
       }, 1000); // <-- simulate a delay of 2 seconds
     });
   };
 
   useEffect(() => {
-    const cookieLocation = Cookies.get('location');
+    const cookieLocation: string = Cookies.get('location');
 
-    console.log(cookieLocation);
     if (cookieLocation) return setLocationAllowed(true);
 
     navigator.geolocation.getCurrentPosition(
