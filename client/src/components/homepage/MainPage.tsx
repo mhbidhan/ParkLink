@@ -18,14 +18,16 @@ import NearbyParking from './NearbyParking';
 import PhotoWithOverlay from './PhotoWithOverlay';
 
 function MainPage() {
-  const { data: user } = useGetUserQuery();
+  const { data: user } = useGetUserQuery<any>(null);
 
-  const latitude = JSON.parse(Cookies.get('location')).location.latitude;
-  const longitude = JSON.parse(Cookies.get('location')).location.longitude;
-  const [area, setArea] = useState('');
-  const [city, setCity] = useState('');
+  const latitude: string = JSON.parse(Cookies.get('location') || '{}').location
+    .latitude;
+  const longitude: string = JSON.parse(Cookies.get('location') || '{}').location
+    .longitude;
+  const [area, setArea] = useState<string>('');
+  const [city, setCity] = useState<string>('');
 
-  const fetchLocations = async (latitude, longitude) => {
+  const fetchLocations = async (latitude: string, longitude: string) => {
     const response = await axios.get(
       `https://barikoi.xyz/v2/api/search/nearby/${BARI_KOI_API_KEY}/0.1/1?longitude=${longitude}&latitude=${latitude}`
     );
@@ -39,7 +41,7 @@ function MainPage() {
       setArea(res.places[0].area);
       // console.log(res);
     });
-  }, []);
+  }, [longitude, latitude]);
 
   return (
     <VStack mt={3} spacing={4} mb={'50px!important'} h={'80vh!important'}>
